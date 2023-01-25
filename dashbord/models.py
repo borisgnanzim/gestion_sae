@@ -12,7 +12,7 @@ class Client(models.Model):
 
 
     def __str__(self):
-        return 
+        return self.nom
 
 
 class Livreur(models.Model):
@@ -21,7 +21,7 @@ class Livreur(models.Model):
     tel = models.CharField(max_length=11)
     email = models.EmailField( max_length=254)
     def __str__(self):
-        return 
+        return self.nom
 
 
 class Gestionnaire(models.Model):
@@ -30,7 +30,8 @@ class Gestionnaire(models.Model):
     tel = models.CharField(max_length=11)
     email = models.EmailField( max_length=254)
     def __str__(self):
-        return 
+        return self.nom
+    
 
 
 class Commande(models.Model):
