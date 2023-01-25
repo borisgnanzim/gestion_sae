@@ -20,7 +20,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('dashbord/', views.dashbord),
     path('', views.Login),
-    path('#', views.dashbord),
+   #path('#', views.dashbord),
     path('login/',views.Login),
     path('logout/',views.Logout),
 ]

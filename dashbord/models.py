@@ -4,7 +4,7 @@ from django.db import models
 class Client(models.Model):
     nom = models.CharField(max_length=50)
     prenom = models.CharField(max_length=50 )
-    tel = models.CharField(max_length=11)
+    tel = models.CharField(max_length=15)
     email = models.EmailField( max_length=254)
     adresse = models.TextField()
     localisation =models.TextField()
