@@ -1,5 +1,6 @@
 from django.db import models
-
+from datetime import datetime
+from django.utils import timezone
 # Create your models here.
 class Client(models.Model):
     nom = models.CharField(max_length=50)
@@ -35,22 +36,33 @@ class Gestionnaire(models.Model):
 
 
 class Commande(models.Model):
+    designantion = models.CharField(max_length=50 ,null=True)
+    nombreSachet = models.IntegerField(null=True)
+    poids =models.FloatField
+    prix=models.FloatField 
+    date_commande = models.DateField(default=timezone.now)
+    client_commande = models.ForeignKey(Client, on_delete=models.CASCADE ,null=True)
     
+    def __str__(self):
+        return self.designantion
+
+class Attribution(models.Model):
+    designantion = models.CharField(max_length=50 ,null=True)
+    commande_attribution = models.ForeignKey(Commande, on_delete=models.CASCADE , null=True )
+    livreur_livraison = models.ForeignKey(Livreur, on_delete=models.CASCADE , null=True)
+    date_attribution = models.DateField(default=timezone.now) 
+    gestionnaire_attribution = models.ForeignKey(Gestionnaire, on_delete= models.CASCADE ,null=True)
+    commentaire = models.TextField(max_length=300,null=True)
 
     def __str__(self):
-        return 
-
+        return self.designantion
 
 class Livraison(models.Model):
-    
+    designation = models.CharField(max_length= 50 ,null=True) 
+    commande_livraison = models.ForeignKey(Commande, on_delete=models.CASCADE ,null=True)
+    #client_livraison = models.ForeignKey(Client, on_delete=models.CASCADE) 
+    livreur_livraison = models.ForeignKey(Livreur, on_delete=models.CASCADE ,null=True)
+    etat = models.BooleanField(null=True) # true pour livré false pour pas encore livré
 
     def __str__(self):
-        return 
-
- 
-class Attribution(models.Model):
-    
-
-    def __str__(self):
-        return 
-
+        return self.designation

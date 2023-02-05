@@ -8,9 +8,9 @@ from .models import Livraison
 from .models import Commande
 from .models import Attribution
 
-admin.site.register(Client)
-admin.site.register(Gestionnaire)
+admin.site.register(Client) 
+admin.site.register(Gestionnaire) 
 admin.site.register(Livreur)
-admin.site.register(Livraison)
-admin.site.register(Commande)
-admin.site.register(Attribution)
+admin.site.register(Livraison) 
+admin.site.register(Commande) 
+admin.site.register(Attribution) 
