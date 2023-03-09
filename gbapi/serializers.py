@@ -1,5 +1,6 @@
 from rest_framework import serializers 
 from dashbord.models import * 
+from django.contrib.auth.models import User, Group
 
 class ClientSerializer(serializers.ModelSerializer):
     class  Meta:
@@ -30,4 +31,8 @@ class LivraisonSerializer(serializers.ModelSerializer):
     class  Meta:
         model = Livraison
         fields = "__all__"
-        
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = "__all__"      

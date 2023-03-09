@@ -3,6 +3,9 @@ from dashbord import models
 from . import serializers 
 from rest_framework import permissions 
 
+from django.contrib.auth.models import User, Group
+
+
 class ClientViewset(viewsets.ModelViewSet):
     queryset = models.Client.objects.all()
     serializer_class = serializers.ClientSerializer
@@ -32,4 +35,9 @@ class LivraisonViewset(viewsets.ModelViewSet):
     queryset = models.Livraison.objects.all()
     serializer_class = serializers.LivraisonSerializer
     permission_classes = [permissions.IsAuthenticated]  
+
+class UserViewset(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = serializers.UserSerializer
+    permission_classes = [permissions.IsAuthenticated]    
     
