@@ -25,6 +25,7 @@ urlpatterns = [
    #path('#', views.dashbord),
     path('login/',views.Login),
     path('logout/',views.Logout),
-    path('api/',include(router.urls))
+    path('api/',include(router.urls)) 
+    
     
 ]
