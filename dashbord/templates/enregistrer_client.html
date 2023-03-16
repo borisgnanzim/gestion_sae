@@ -1,0 +1,114 @@
+{% extends 'index.html' %}
+
+{% block content %}
+{% load static %}
+
+  <div class="pagetitle">
+    <h1>Enregistrer un Client</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/dashbord">Home</a></li>
+        <li class="breadcrumb-item">Gestion Client </li>
+        <li class="breadcrumb-item active"><a href="{% url 'enregistrer_client' %}">Enregistrer un Client </a></li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+
+  <section class="section">
+    <div class="row">
+
+   <form action="" method="post">
+    {% csrf_token %}
+              <div class="row mb-3">
+                <label for="inputEmail3" class="col-sm-3 col-form-label">Nom</label>
+                <div class="col-sm-7">
+                  <input name="nom" onchange="handle()" onkeypress="handle()" id="yy" required type="text" class="form-control" id="inputText" list="l" >
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <label for="inputEmail3" class="col-sm-3 col-form-label">Prenom</label>
+                <div class="col-sm-7">
+                  <input name="prenom"  required   class="form-control" >
+                </div>
+              </div>              
+              <div class="row mb-3">
+                <label for="inputEmail3" class="col-sm-3 col-form-label">Adresse</label>
+                <div class="col-sm-7">
+                  <input name="adresse"  required   class="form-control" >
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="inputPassword3" class="col-sm-3 col-form-label">Numero</label>
+                <div class="col-sm-7">
+                  <input name="tel" required type="number"  class="form-control" >
+                </div>
+              </div>
+              
+              
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary" >Enegistrer</button>
+                <button type="reset" class="btn btn-secondary">Reinitialiser</button>
+              </div>
+            </form>
+    </div>
+
+    {% if client  %}
+    <button  hidden type="button" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#basicModal" id="button" style="display:unset;">
+      Basic Modal
+    </button>
+
+    <div class="modal fade" id="basicModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title"> Le client {{client.nom}} {{client.prenom}} identifie au numero de {{client.tel}} a ete enregistree avec Succes</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+          </div>
+          <div class="modal-body">
+            
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fermer</button>
+            <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+          </div>
+        </div>
+      </div>
+      <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+      <!-- Vendor JS Files -->
+      <script src="{% static '/assets/vendor/apexcharts/apexcharts.min.js' %}"></script>
+      <script src="{% static '/assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+      <script src="{% static '/assets/vendor/chart.js/chart.min.js' %}"></script>
+      <script src="{% static '/assets/vendor/echarts/echarts.min.js' %}"></script>
+      <script src="{% static '/assets/vendor/quill/quill.min.js' %}"></script>
+      <script src="{% static '/assets/vendor/simple-datatables/simple-datatables.js' %}"></script>
+      <script src="{% static '/assets/vendor/tinymce/tinymce.min.js' %}"></script>
+      <script src="{% static '/assets/vendor/php-email-form/validate.js' %}"></script>
+
+      <!-- Template Main JS File -->
+      <script src="{% static '/assets/js/main.js' %}"></script>
+
+      <script>
+      var button = document.querySelector('#button');
+      button.click()
+
+     </script>
+     {% endif %}
+  </section>
+  <script type="text/javascript">
+    var r = document.querySelector('#yy')
+    var rr = document.querySelector('#zz')
+    //rr.innerHTML = null;
+
+    /*console.log(rr.options)
+    var c = rr.options.map(op => {
+      if(op.value == r.value)
+        console.log("XXXXXXXXXX")
+    })*/
+    const handle = function(){
+      console.log(r.value)
+      //console.log(rr)
+    }
+  </script>
+  {% endblock %}

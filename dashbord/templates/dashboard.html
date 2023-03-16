@@ -1,0 +1,356 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<style type="text/css">
+  
+  td,th{
+    text-align: center;
+  }
+  .b{
+    color: black;
+    font-weight: bold;
+  }
+</style>
+  <div class="pagetitle">
+    <h1>Tableau de bord </h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item active">Tableau de bord</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+
+  <section class="section dashboard">
+    <div class="row">
+
+      <!-- Left side columns -->
+      <div class="col-lg-12">
+        <div class="row">
+
+          <!-- Sales Card -->
+
+          <div class="col-xxl-3 col-md-3">
+            <div class="card info-card sales-card">
+
+
+              <div class="card-body">
+              
+                <h5 class="card-title" style="font-size: 14px;">Total({% now "Y" %})<span class="vente"></span></h5>
+
+                <div class="d-flex align-items-center">
+                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center" style="width: 20px;height: 20px;">
+                    <i class="bi bi-cart" style="font-size: 20px;"></i>
+                  </div>
+                  <div class="ps-3">
+                    <h6 style="font-size: 18px;">{{total}}</h6>
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+
+
+          <div class="col-xxl-3 col-md-3">
+            <div class="card info-card sales-card">
+
+
+              <div class="card-body">
+              
+                <h5 class="card-title" style="font-size: 14px;">Client({% now "Y" %})<span class="vente"></span></h5>
+
+                <div class="d-flex align-items-center">
+                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center" style="width: 20px;height: 20px;">
+                    <i class="bi bi-cart" style="font-size: 20px;"></i>
+                  </div>
+                  <div class="ps-3">
+                    <h6 style="font-size: 18px;">{{client_nbr}}</h6>
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          
+
+          <!-- End Sales Card -->
+
+          <!-- Revenue Card -->
+          <div class="col-xxl-3 col-md-3">
+            <div class="card info-card revenue-card">
+
+              <div class="card-body">
+                <h5 class="card-title " style="font-size: 14px;">Commande({% now "Y" %})<span class="revenue"></span></h5>
+
+                <div class="d-flex align-items-center">
+                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center" style="width: 20px;height: 20px;">
+                    <i class="bi bi-currency-dollar"></i>
+                  </div>
+                  <div class="ps-3">
+                    <h6 style="font-size: 18px;">{{ commande_nbr }}</h6>
+ 
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div><!-- End Revenue Card -->
+
+          <!-- End Revenue Card -->
+
+
+          
+
+
+          </div>
+          </div>
+
+          <!-- Customers Card -->
+          <div class="col-xxl-4 col-xl-12">
+          <div class="col-12">
+            <div class="card recent-sales overflow-auto">
+
+
+              <div class="card-body">
+                <h5 class="card-title">Recapitulatif Mensuel de l'annee  : {% now "Y" %} <span></span></h5>
+                 <div class="filter">
+                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li><a class="dropdown-item" href="{% url 'imprimer'} ">Imprimer</a></li>
+                  </ul>
+                </div>
+
+                <table class=" table-striped table">
+                  <thead>
+                    <tr >
+                      <th scope="col">Mois</th>
+                      <th scope="col">Nombre de Commande</th>
+                      <th scope="col">Nombre de Client</th>
+                      <th scope="col">Montant</th>
+                      
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for t in total_mois.values %}
+                    <tr>
+                      {% if t.0 == 1 %}
+                      <td>Janvier</td>
+                      {% elif t.0 == 2 %}
+                      <td>Fevrier</td>
+                      {% elif t.0 == 3 %}
+                      <td>Mars</td>
+                      {% elif t.0 == 4 %}
+                      <td>Avril</td>
+                      {% elif t.0 == 5 %}
+                      <td>Mai</td>
+                      {% elif t.0 == 6 %}
+                      <td>Juin</td>
+                      {% elif t.0 == 7 %}
+                      <td>Juillet</td>
+                      {% elif t.0 == 8 %}
+                      <td>Aout</td>
+                      {% elif t.0 == 9 %}
+                      <td>Septembre</td>
+                      {% elif t.0 == 10 %}
+                      <td>Octobre</td>
+                      {% elif t.0 == 11 %}
+                      <td>Novembre</td>
+                      {% elif t.0 == 12 %}
+                      <td>Decembre</td>
+                      {% endif %}
+                      <td>{{t.1}}</td>
+                      <td>{{t.2}}</td>
+                      <td>{{t.3}}</td>
+
+                    </tr>
+                    
+                    {% endfor %}
+                  </tbody>
+                </table>
+
+              </div>
+            </div>
+          </div>
+
+          </div><!-- End Customers Card -->
+
+          <!-- Reports --><!-- End Reports -->
+
+          <!-- Recent Sales -->
+          <div class="col-12" >
+            <div class="card recent-sales overflow-auto">
+
+
+
+                <div class="card-body">
+                <h5 class="card-title"> Livraison Recentes <span></span></h5>
+
+                <table class="  table table-striped  ">
+                  <thead>
+                    <tr>
+                      <td class="b" style="color:black;">Client</td>
+                      <td class="b">Quantite</td>
+                      <td class="b">Montant Total</td>
+                      <td class="b">Date Livraion</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for livraison in livraisons %}
+                    <tr>
+                      <td>{{ livraison.client }}</td>
+                      <td>{{ livraison.commande.quantite }}</td>
+                      <td>{{ livraison.commande.prix_total }}</td>
+                      <td>{{ livraison.date }}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+
+
+              <div class="card-body">
+                <h5 class="card-title"> Commande Recentes  <span></span></h5>
+
+                <table class="  table table-striped  ">
+                  <thead>
+                    <tr>
+                      <td class="b" style="color:black;">Client</td>
+                      <td class="b">Quantite</td>
+                      <td class="b">Montant Total</td>
+                      <td class="b">Date Livraion</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for commande in commandes %}
+                    <tr>
+                      <td>{{ commande.client }}</td>
+                      <td>{{ commande.quantite }}</td>
+                      <td>{{ commande.prix_total }}</td>
+                      <td>{{ commande.date_livraion }}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+
+              </div>              
+
+            </div>
+            <div class="card recent-sales overflow-auto">
+              <div class="card-body">
+                <h5 class="card-title">Client Recents <span></span></h5>
+
+                <table class="  table table-striped  ">
+                  <thead>
+                    <tr>
+                      <td class="b" style="color:black;">Nom</td>
+                      <td class="b">Prenom</td>
+                      <td class="b">Numero</td>
+                      <td class="b">Lieu de Livraison</td>
+                      
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for client in clients %}
+                    <tr>
+                      <td>{{ client.nom }}</td>
+                      <td>{{ client.prenom }}</td>
+                      <td>{{ client.numero }}</td>
+                      <td>{{ client.lieu_livraison }}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+
+              </div>
+            </div>
+
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Produit les Mieux Vendus</h5>
+
+              <!-- Bar Chart -->
+              <div id="barChart" style="min-height: 400px;" class="echart"></div>
+
+              <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                  echarts.init(document.querySelector("#barChart")).setOption({
+                    xAxis: {
+                      type: 'category',
+
+                      data: [
+                        
+
+                        '{{arr.0}}',
+                        '{{arr.1}}',
+                        
+
+                       
+                        ]
+                    },
+                    yAxis: {
+                      type: 'value'
+                    },
+                    series: [{
+                      data: [5,5,5,5,5,],
+                      type: 'bar'
+                    }]
+                  });
+                });
+              </script>
+              <!-- End Bar Chart -->
+
+            </div>
+          </div>
+        
+
+            </div>
+          </div><!-- End Recent Sales -->
+
+
+
+          <!-- Top Selling -->
+          <div class="col-12">
+            <div class="card top-selling overflow-auto">
+
+
+  
+
+            </div>
+          </div><!-- End Top Selling -->
+
+        </div>
+      </div><!-- End Left side columns -->
+
+      <!-- Right side columns -->
+      <div class="col-lg-4">
+
+        <!-- Recent Activity -->
+        <div class="card">
+
+        </div><!-- End Recent Activity -->
+
+        <!-- Budget Report -->
+        <div class="card">
+   
+
+
+        </div><!-- End Budget Report -->
+
+        <!-- Website Traffic -->
+  <!-- End Website Traffic -->
+
+        <!-- News & Updates Traffic -->
+        <!-- End News & Updates -->
+
+      </div><!-- End Right side columns -->
+
+    </div>
+  </section>
+{% endblock %}

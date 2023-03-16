@@ -8,6 +8,12 @@ from .models import Livraison
 from .models import Commande
 from .models import Attribution
 
+
+#
+from rest_framework.authtoken.admin import TokenAdmin
+
+TokenAdmin.raw_id_fields = ['user']
+#
 admin.site.register(Client) 
 admin.site.register(Gestionnaire) 
 admin.site.register(Livreur)

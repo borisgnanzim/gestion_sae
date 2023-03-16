@@ -1,0 +1,160 @@
+{% extends 'index.html' %}
+
+{% block content %}
+{% load static %}
+<div class="pagetitle">
+  <h1>Gestion des Livraisons</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+      <li class="breadcrumb-item">Gestion Livraison</li>
+      <li class="breadcrumb-item active"><a href='/liste_depense'>Liste des Livraisons<a></li>
+    </ol>
+  </nav>
+</div><!-- End Page Title -->
+
+  <style type="text/css">
+    td{
+      flex: 1;
+      /*border: 1px solid red;*/
+    }
+  </style>
+
+            <div class="card">
+            <div class="card-body">
+              <h5 class="card-title"></h5>
+
+              <!-- Default Tabs -->
+              <ul class="nav nav-tabs d-flex" id="myTabjustified" role="tablist">
+                <li class="nav-item flex-fill" role="presentation">
+                  <button class="nav-link w-100 active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-justified" type="button" role="tab" aria-controls="home" aria-selected="true">Generer Livraison</button>
+                </li>
+                <li class="nav-item flex-fill" role="presentation">
+                  <button class="nav-link w-100" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-justified" type="button" role="tab" aria-controls="profile" aria-selected="false">Liste des Livraisons</button>
+                </li>
+                <li class="nav-item flex-fill" role="presentation">
+                  <button class="nav-link w-100" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-justified" type="button" role="tab" aria-controls="contact" aria-selected="false">Contact</button>
+                </li>
+              </ul>
+              <div class="tab-content pt-2" id="myTabjustifiedContent">
+                <div class="tab-pane fade show active" id="home-justified" role="tabpanel" aria-labelledby="home-tab">
+                         <div class="card-body">
+                        <h5 class="card-title">Liste des Livraisons | {{ livraisons.count }}</h5>
+                        <form>
+                         <input type='date' class='' name='date'/>
+                         <button class='btn btn-primary' type='submit'>Generer</button>
+                       </form>
+
+                      <table class="table datatable">
+                <thead>
+                  <tr>
+                    <th scope="col">Produit</th>
+                    <th scope="col">Distributeur</th>
+                    <th scope="col">Quantite</th>
+                    <th scope="col">Lieu</th>
+                    <th scope="col">Date de Livraison</th>
+                    <th scope="col">Prix Total</th>
+                    <th scope="col">Livre</th>
+                    <th scope="col">Action</th>
+        
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for livraison in livraisons %}
+                    <tr>
+                      <td>{{ livraison.commande.produit }}</td>
+                      <td>{{ livraison.distributeur }}</td>
+                      <td>{{ livraison.commande.quantite }}</td>
+                      <td>{{ livraison.commande.client.lieu_livraison }}</td>
+                      <td>{{ livraison.date }}</td>
+                      <td>{{ livraison.commande.prix_total }}</td>
+                      {% if livraison.livre == True %}
+                      <td>Oui</td>
+                      {% endif %}
+                      {% if livraison.livre == False %}
+                      <td>Non</td>
+                      {% endif %}
+                      <td><a href="{% url 'modifier_livraison' livraison.pk %}">Modifier</a></td>
+                  
+                      
+
+
+                      
+                    </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+                <h5>TOTAL : {{nbr}}</h5>
+                      </div>
+                </div>
+                <div class="tab-pane fade" id="profile-justified" role="tabpanel" aria-labelledby="profile-tab">
+                  <div class='card-body'>
+                 <h5 class="card-title">Liste des Livraisons | {{ livraisons.count }}</h5>
+                 
+                  <table class="table datatable">
+                <thead>
+                  <tr>
+                    <th scope="col">Produit</th>
+                    <th scope="col">Distributeur</th>
+                    <th scope="col">Quantite</th>
+                    <th scope="col">Lieu</th>
+                    <th scope="col">Date de Livraison</th>
+                    <th scope="col">Prix Total</th>
+                    <th scope="col">Livre</th>
+                    <th scope="col">Action</th>
+        
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for livraison in livraisons_actif %}
+                    <tr>
+                      <td>{{ livraison.commande.produit }}</td>
+                      <td>{{ livraison.distributeur }}</td>
+                      <td>{{ livraison.commande.quantite }}</td>
+                      <td>{{ livraison.commande.client.lieu_livraison }}</td>
+                      <td>{{ livraison.date }}</td>
+                      <td>{{ livraison.commande.prix_total }}</td>
+                      {% if livraison.livre == True %}
+                      <td>Oui</td>
+                      {% endif %}
+                      {% if livraison.livre == False %}
+                      <td>Non</td>
+                      {% endif %}
+                      <td><a href="{% url 'modifier_livraison' livraison.pk %}">Modifier</a></td>
+                      
+                    </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+                <h5>TOTAL : {{livraisons_actif.count}}</h5>
+            </div>
+                  
+                </div>
+                <div class="tab-pane fade" id="contact-justified" role="tabpanel" aria-labelledby="contact-tab">
+                  Saepe animi et soluta ad odit soluta sunt. Nihil quos omnis animi debitis cumque. Accusantium quibusdam perspiciatis qui qui omnis magnam. Officiis accusamus impedit molestias nostrum veniam. Qui amet ipsum iure. Dignissimos fuga tempore dolor.
+                </div>
+              </div><!-- End Default Tabs -->
+
+            </div>
+          </div>
+
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="/assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/assets/vendor/chart.js/chart.min.js"></script>
+  <script src="/assets/vendor/echarts/echarts.min.js"></script>
+  <script src="/assets/vendor/quill/quill.min.js"></script>
+  <script src="/assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="/assets/vendor/tinymce/tinymce.min.js"></script>
+  <script src="/assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="/assets/js/main.js"></script>
+
+</section>
+
+
+{% endblock %}

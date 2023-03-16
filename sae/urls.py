@@ -17,17 +17,38 @@ from django.contrib import admin
 from django.urls import path, include
 from dashbord import views
 
-
 from .router import router
+
+from rest_framework import authtoken
+from django.urls import path, include
+
+from gbapi.viewsets import CustomAuthToken
+
+from rest_framework.authtoken import views as vw
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('dashbord/', views.dashbord),
     path('', views.Login),
-   #path('#', views.dashbord),
+    path('#', views.dashbord),
     path('login/',views.Login),
     path('logout/',views.Logout),
-    path('api/',include(router.urls)) 
+    path('api/',include(router.urls)) ,
+
+    path('api-token-auth/', authtoken.views.obtain_auth_token),
+    path('api-token-auth/', CustomAuthToken.as_view()) ,
     
+    path('api/auth', include('rest_framework.urls', namespace='rest_framework')),
+    path('api/auth/token', vw.obtain_auth_token)  , 
+
+    #path('enregistrer_client/', views.enregistrer_client, name="enregistrer_client"),
+
+# Ajout du 14-03-2023 11h19
+    path('gestion/', include('dashbord.urls')),
+
     
 ]
+
+
+

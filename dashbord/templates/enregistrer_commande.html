@@ -1,0 +1,127 @@
+{% extends 'index.html' %}
+
+{% block content %}
+{% load static %}
+
+  <div class="pagetitle">
+    <h1>Enregistrer une Commande</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item">Gestion Commande</li>
+        <li class="breadcrumb-item active"><a href="{% url 'enregistrer_commande' %}">Enregistrer une Commande </a></li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+
+  <section class="section">
+    <div class="row">
+
+   <form action="" method="post">
+    {% csrf_token %}
+              <div class="row mb-3">
+                <label for="inputEmail3" class="col-sm-3 col-form-label">Client</label>
+                <div class="col-sm-7">
+                  <select name="client" id="yy" required type="text" class="form-control" id="inputText" list="l">
+                    {% for client in clients %}
+                    <option value="{{client.id}}">{{client.nom}} {{client.prenom}}</option>
+                    {% endfor %}
+                  <select>
+                </div>
+              </div>              
+
+              <div class="row mb-3">
+                <label for="inputEmail3" class="col-sm-3 col-form-label">Produit</label>
+                <div class="col-sm-7">
+                  <select name="produit" id="yy" required type="text"class="form-control" id="inputText" list="l">
+                    {% for produit in produits %}
+                    <option value="{{produit.id}}">{{produit}}</option>
+                    {% endfor %}
+                  <select>
+                </div>
+              </div>
+
+   
+              <div class="row mb-3">
+                <label for="inputEmail3" class="col-sm-3 col-form-label">Quantite</label>
+                <div class="col-sm-7">
+                  <input name="quantite"  type="number" required   class="form-control" >
+                </div>
+              </div>              
+              <div class="row mb-3">
+                <label for="inputEmail3" class="col-sm-3 col-form-label">Date de Livraison</label>
+                <div class="col-sm-7">
+                  <input name="date" type="date"  class="form-control" >
+                </div>
+                <label>Par defaut la date du jour plus 7 jours</label>
+              </div>
+              
+              
+              
+              
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary" >Enegistrer</button>
+                <button type="reset" class="btn btn-secondary">Reinitialiser</button>
+              </div>
+            </form>
+    </div>
+
+    {% if commande %}
+    <button  hidden type="button" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#basicModal" id="button" style="display:unset;">
+      Basic Modal
+    </button>
+
+    <div class="modal fade" id="basicModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Commande Enregistree avec Succes</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+          </div>
+          <div class="modal-body">
+            la commande de {{commande.quantite}} {{commande.produit}}(s) du client {{commande.client}} a ete enregistree avec success
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fermer</button>
+            <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+          </div>
+        </div>
+      </div>
+      <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+      <!-- Vendor JS Files -->
+      <script src="{% static '/assets/vendor/apexcharts/apexcharts.min.js' %}"></script>
+      <script src="{% static '/assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+      <script src="{% static '/assets/vendor/chart.js/chart.min.js' %}"></script>
+      <script src="{% static '/assets/vendor/echarts/echarts.min.js' %}"></script>
+      <script src="{% static '/assets/vendor/quill/quill.min.js' %}"></script>
+      <script src="{% static '/assets/vendor/simple-datatables/simple-datatables.js' %}"></script>
+      <script src="{% static '/assets/vendor/tinymce/tinymce.min.js' %}"></script>
+      <script src="{% static '/assets/vendor/php-email-form/validate.js' %}"></script>
+
+      <!-- Template Main JS File -->
+      <script src="{% static '/assets/js/main.js' %}"></script>
+
+      <script>
+      var button = document.querySelector('#button');
+      button.click()
+
+     </script>
+     {% endif %}
+  </section>
+  <script type="text/javascript">
+    var r = document.querySelector('#yy')
+    var rr = document.querySelector('#zz')
+    //rr.innerHTML = null;
+
+    /*console.log(rr.options)
+    var c = rr.options.map(op => {
+      if(op.value == r.value)
+        console.log("XXXXXXXXXX")
+    })*/
+    const handle = function(){
+      console.log(r.value)
+      //console.log(rr)
+    }
+  </script>
+  {% endblock %}
