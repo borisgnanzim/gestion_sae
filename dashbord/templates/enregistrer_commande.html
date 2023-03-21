@@ -7,7 +7,7 @@
     <h1>Enregistrer une Commande</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="/dashbord">Home</a></li>
         <li class="breadcrumb-item">Gestion Commande</li>
         <li class="breadcrumb-item active"><a href="{% url 'enregistrer_commande' %}">Enregistrer une Commande </a></li>
       </ol>
@@ -30,34 +30,37 @@
                 </div>
               </div>              
 
-              <div class="row mb-3">
-                <label for="inputEmail3" class="col-sm-3 col-form-label">Produit</label>
-                <div class="col-sm-7">
-                  <select name="produit" id="yy" required type="text"class="form-control" id="inputText" list="l">
-                    {% for produit in produits %}
-                    <option value="{{produit.id}}">{{produit}}</option>
-                    {% endfor %}
-                  <select>
-                </div>
-              </div>
-
    
               <div class="row mb-3">
-                <label for="inputEmail3" class="col-sm-3 col-form-label">Quantite</label>
+                <label for="inputEmail3" class="col-sm-3 col-form-label">Désignation</label>
                 <div class="col-sm-7">
-                  <input name="quantite"  type="number" required   class="form-control" >
+                  <input name="designation"  type="text" required   class="form-control" >
                 </div>
               </div>              
               <div class="row mb-3">
-                <label for="inputEmail3" class="col-sm-3 col-form-label">Date de Livraison</label>
+                <label for="inputEmail3" class="col-sm-3 col-form-label">Date de Commande </label>
                 <div class="col-sm-7">
-                  <input name="date" type="date"  class="form-control" >
+                  <input name="date" type="datetime"  class="form-control" value="{% now 'Y-m-d' %}" >
                 </div>
-                <label>Par defaut la date du jour plus 7 jours</label>
               </div>
-              
-              
-              
+              <div class="row mb-3">
+                <label for="inputEmail3" class="col-sm-3 col-form-label">Prix</label>
+                <div class="col-sm-7">
+                  <input name="prix"  type="number" required   class="form-control" >
+                </div>
+              </div>   
+              <div class="row mb-3">
+                <label for="inputEmail3" class="col-sm-3 col-form-label">Poids</label>
+                <div class="col-sm-7">
+                  <input name="poids"  type="number" required   class="form-control" >
+                </div>
+              </div>   
+              <div class="row mb-3">
+                <label for="inputEmail3" class="col-sm-3 col-form-label">Nombre de Sachet </label>
+                <div class="col-sm-7">
+                  <input name="nombreSachet"  type="number" required   class="form-control" >
+                </div>
+              </div>   
               
               <div class="text-center">
                 <button type="submit" class="btn btn-primary" >Enegistrer</button>
@@ -79,7 +82,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
           </div>
           <div class="modal-body">
-            la commande de {{commande.quantite}} {{commande.produit}}(s) du client {{commande.client}} a ete enregistree avec success
+            la commande du client {{commande.client}} a ete enregistree avec success
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fermer</button>

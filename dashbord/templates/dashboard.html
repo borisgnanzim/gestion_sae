@@ -15,7 +15,7 @@
     <h1>Tableau de bord </h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="/dashbord">Home</a></li>
         <li class="breadcrumb-item active">Tableau de bord</li>
       </ol>
     </nav>
@@ -271,59 +271,12 @@
             </div>
 
 
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Produit les Mieux Vendus</h5>
-
-              <!-- Bar Chart -->
-              <div id="barChart" style="min-height: 400px;" class="echart"></div>
-
-              <script>
-                document.addEventListener("DOMContentLoaded", () => {
-                  echarts.init(document.querySelector("#barChart")).setOption({
-                    xAxis: {
-                      type: 'category',
-
-                      data: [
-                        
-
-                        '{{arr.0}}',
-                        '{{arr.1}}',
-                        
-
-                       
-                        ]
-                    },
-                    yAxis: {
-                      type: 'value'
-                    },
-                    series: [{
-                      data: [5,5,5,5,5,],
-                      type: 'bar'
-                    }]
-                  });
-                });
-              </script>
-              <!-- End Bar Chart -->
-
-            </div>
-          </div>
-        
-
-            </div>
           </div><!-- End Recent Sales -->
 
 
 
           <!-- Top Selling -->
-          <div class="col-12">
-            <div class="card top-selling overflow-auto">
-
-
-  
-
-            </div>
-          </div><!-- End Top Selling -->
+          
 
         </div>
       </div><!-- End Left side columns -->

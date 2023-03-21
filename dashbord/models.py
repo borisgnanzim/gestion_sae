@@ -12,9 +12,9 @@ class Client(models.Model):
     email = models.EmailField( max_length=254)
     adresse = models.TextField()
     localisation =models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
     
-
-
     def __str__(self):
         return self.nom
 
@@ -42,24 +42,26 @@ class Gestionnaire(models.Model):
 class Commande(models.Model):
     designation = models.CharField(max_length=50 ,null=True)
     nombreSachet = models.IntegerField(null=True)
-    poids =models.FloatField
-    prix=models.FloatField 
-    date_commande = models.DateField(default=timezone.now)
-    client_commande = models.ForeignKey(Client, on_delete=models.CASCADE ,null=True)
+    poids =models.FloatField(max_length=12 ,null=True)
+    prix=models.FloatField(max_length=12 ,null=True) 
+    date = models.DateField(default=datetime.today())
+    client = models.ForeignKey(Client, on_delete=models.CASCADE ,null=True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
     
     def __str__(self):
-        return self.designantion
+        return self.designation
 
 class Attribution(models.Model):
-    designantion = models.CharField(max_length=50 ,null=True)
-    commande_attribution = models.ForeignKey(Commande, on_delete=models.CASCADE , null=True )
+    designation = models.CharField(max_length=50 ,null=True)
+    commande = models.ForeignKey(Commande, on_delete=models.CASCADE , null=True ,unique=True )
     livreur = models.ForeignKey(Livreur, on_delete=models.CASCADE , null=True)
     date = models.DateField(default=timezone.now) 
     gestionnaire = models.ForeignKey(Gestionnaire, on_delete= models.CASCADE ,null=True)
     commentaire = models.TextField(max_length=300,null=True)
 
     def __str__(self):
-        return self.designantion
+        return self.designation
 
 class Livraison(models.Model):
     designation = models.CharField(max_length= 50 ,null=True) 
@@ -67,6 +69,9 @@ class Livraison(models.Model):
     #client_livraison = models.ForeignKey(Client, on_delete=models.CASCADE) 
     livreur_livraison = models.ForeignKey(Livreur, on_delete=models.CASCADE ,null=True)
     etat = models.BooleanField(null=True) # true pour livré false pour pas encore livré
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
 
     def __str__(self):
         return self.designation

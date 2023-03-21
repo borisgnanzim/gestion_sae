@@ -21,7 +21,7 @@ def Login(request):
         password = request.POST['password']
         user = authenticate(request,username=username,password=password)
         print(user)
-        print('user logednhjvj')
+        print('user loged')
         if user is not None:
             login(request,user)
             return redirect("/dashbord")
@@ -57,21 +57,21 @@ def enregistrer_client(request):
 
 @decorators.login_required(login_url='/login')
 def dashboard(request):
-	commande_recente = Commande.objects.all().order_by('-created')[:10]
-	client_recent = Client.objects.all().order_by('-created')[:10]
+	commande_recente = Commande.objects.all().order_by('-created')[:2]
+	client_recent = Client.objects.all().order_by('-created')[:2]
 	commande_nbr = Commande.objects.all().filter(created__year=date.today().year).count()
 	client_nbr = Client.objects.all().filter(created__year=date.today().year).count()
 	commandes = Commande.objects.all().filter(created__year=date.today().year)
-	total = sum([ x.produit.prix_unitaire * x.produit.nombre_lot * x.quantite for x in commandes ])
+	# total = sum([ x.produit.prix_unitaire * x.produit.nombre_lot * x.quantite for x in commandes ])
 
 
 
-	total_mois = {}
-	produits = Produit.objects.all()
-	arr = []
-	for p in produits:
-		s = sum([c.quantite for c in  p.commande_set.all().filter(created__year=date.today().year) ])
-		arr.append({'p':p,'s':s})
+	# total_mois = {}
+	# produits = Produit.objects.all()
+	# arr = []
+	# for p in produits:
+	# 	s = sum([c.quantite for c in  p.commande_set.all().filter(created__year=date.today().year) ])
+	# 	arr.append({'p':p,'s':s})
 
 
 
@@ -79,14 +79,16 @@ def dashboard(request):
 
 	for i in range(1,date.today().month+1):
 		cmds = Commande.objects.all().filter(created__year=date.today().year).filter(created__month=i)
-		t = sum([x.produit.prix_unitaire * x.produit.nombre_lot * x.produit.quantite for x in cmds])
+		# t = sum([x.produit.prix_unitaire * x.produit.nombre_lot * x.produit.quantite for x in cmds])
 		c = Client.objects.all().filter(created__year=date.today().year).filter(created__month=i).count()
 		cc = Commande.objects.all().filter(created__month=i).filter(created__year=date.today().year).count()
-		total_mois[i] = [i,cc,c,t]
+		# total_mois[i] = [i,cc,c,t]
 
 	return render(request,'dashboard.html',{'commande_nbr':commande_nbr,
 		'client_nbr':client_nbr,'commandes':commande_recente,
-		'clients':client_recent,'total':total,'total_mois':total_mois,'arr':produits[:2]})
+		'clients':client_recent,
+		# 'total':total,'total_mois':total_mois,'arr':produits[:2]
+		})
 
 
 	
@@ -121,16 +123,14 @@ def enregistrer_commande(request):
 		commande = Commande(client_commande=client,
 		    designation = request.POST['designation'],  
 			nombreSachet=int(request.POST['nombreSachet']),
-			date_commande=request.POST['date_commande'] ,
+			date=request.POST['date'] ,
             poids =request.POST['poids'],
             prix =request.POST['prix'] )
 
 		commande.save()
 		messages.info(request,"Commande Enregistree avec succes")
-		return render(request,'enregistrer_commande.html',{'commande':commande,'clients':clients,'produits':produits})
-
-
-	return render(request,'enregistrer_commande.html',{'clients':clients,'produits':produits})
+		return render(request,'enregistrer_commande.html',{'commande':commande,'clients':clients})
+	return render(request,'enregistrer_commande.html',{'clients':clients})
 	pass
 
 
@@ -191,9 +191,7 @@ def modifier_livraison(request,pk):
 @decorators.login_required(login_url='/login')
 def liste_commande(request):
 	commandes = Commande.objects.all()
-	# total = sum([x.produit.prix_unitaire*x.produit.nombre_lot*x.quantite for x in commandes])
-	# return render(request,'liste_commande.html',{'commandes':commandes,'total':total})
-	return render(request,'liste_commande.html')
+	return render(request,'liste_commande.html',{'commandes':commandes})
 	pass
 
 
