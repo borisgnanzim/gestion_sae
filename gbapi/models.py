@@ -16,8 +16,8 @@ from django.contrib.auth.models import User
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
         Token.objects.create(user=instance)
-        token = Token.objects.create(user=instance)
-        print(token.key)
+        #token = Token.objects.create(user=instance)
+       # print(token.key)
       #  print("phoenix")
 
 

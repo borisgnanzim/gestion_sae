@@ -30,28 +30,7 @@
 
           <!-- Sales Card -->
 
-          <div class="col-xxl-3 col-md-3">
-            <div class="card info-card sales-card">
-
-
-              <div class="card-body">
-              
-                <h5 class="card-title" style="font-size: 14px;">Total({% now "Y" %})<span class="vente"></span></h5>
-
-                <div class="d-flex align-items-center">
-                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center" style="width: 20px;height: 20px;">
-                    <i class="bi bi-cart" style="font-size: 20px;"></i>
-                  </div>
-                  <div class="ps-3">
-                    <h6 style="font-size: 18px;">{{total}}</h6>
-
-                  </div>
-                </div>
-              </div>
-
-            </div>
-          </div>
-
+          
 
 
           <div class="col-xxl-3 col-md-3">
@@ -101,6 +80,28 @@
 
             </div>
           </div><!-- End Revenue Card -->
+          <div class="col-xxl-3 col-md-3">
+            <div class="card info-card sales-card">
+
+
+              <div class="card-body">
+              
+                <h5 class="card-title" style="font-size: 14px;">Chiffre d'affaire({% now "Y" %})<span class="vente"></span></h5>
+
+                <div class="d-flex align-items-center">
+                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center" style="width: 20px;height: 20px;">
+                    <i class="bi bi-cart" style="font-size: 20px;"></i>
+                  </div>
+                  <div class="ps-3">
+                    <h6 style="font-size: 18px;">{{total}}</h6>
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
 
           <!-- End Revenue Card -->
 
@@ -185,63 +186,6 @@
           <!-- Recent Sales -->
           <div class="col-12" >
             <div class="card recent-sales overflow-auto">
-
-
-
-                <div class="card-body">
-                <h5 class="card-title"> Livraison Recentes <span></span></h5>
-
-                <table class="  table table-striped  ">
-                  <thead>
-                    <tr>
-                      <td class="b" style="color:black;">Client</td>
-                      <td class="b">Quantite</td>
-                      <td class="b">Montant Total</td>
-                      <td class="b">Date Livraion</td>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {% for livraison in livraisons %}
-                    <tr>
-                      <td>{{ livraison.client }}</td>
-                      <td>{{ livraison.commande.quantite }}</td>
-                      <td>{{ livraison.commande.prix_total }}</td>
-                      <td>{{ livraison.date }}</td>
-                    </tr>
-                    {% endfor %}
-                  </tbody>
-                </table>
-              </div>
-
-
-              <div class="card-body">
-                <h5 class="card-title"> Commande Recentes  <span></span></h5>
-
-                <table class="  table table-striped  ">
-                  <thead>
-                    <tr>
-                      <td class="b" style="color:black;">Client</td>
-                      <td class="b">Quantite</td>
-                      <td class="b">Montant Total</td>
-                      <td class="b">Date Livraion</td>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {% for commande in commandes %}
-                    <tr>
-                      <td>{{ commande.client }}</td>
-                      <td>{{ commande.quantite }}</td>
-                      <td>{{ commande.prix_total }}</td>
-                      <td>{{ commande.date_livraion }}</td>
-                    </tr>
-                    {% endfor %}
-                  </tbody>
-                </table>
-
-              </div>              
-
-            </div>
-            <div class="card recent-sales overflow-auto">
               <div class="card-body">
                 <h5 class="card-title">Client Recents <span></span></h5>
 
@@ -251,7 +195,7 @@
                       <td class="b" style="color:black;">Nom</td>
                       <td class="b">Prenom</td>
                       <td class="b">Numero</td>
-                      <td class="b">Lieu de Livraison</td>
+                      <td class="b">Adresse</td>
                       
                     </tr>
                   </thead>
@@ -260,8 +204,8 @@
                     <tr>
                       <td>{{ client.nom }}</td>
                       <td>{{ client.prenom }}</td>
-                      <td>{{ client.numero }}</td>
-                      <td>{{ client.lieu_livraison }}</td>
+                      <td>{{ client.tel }}</td>
+                      <td>{{ client.adresse }}</td>
                     </tr>
                     {% endfor %}
                   </tbody>
@@ -269,6 +213,76 @@
 
               </div>
             </div>
+
+
+
+            <div class="card recent-sales overflow-auto">
+
+
+
+                <div class="card-body">
+                <h5 class="card-title"> Livraison Recentes <span></span></h5>
+
+                <table class="  table table-striped  ">
+                  <thead>
+                    <tr>
+                      <td class="b">Désignation</td>
+                      <td class="b" style="color:black;">Livreur</td>
+                      <td class="b">Commande</td>
+                      <td class="b">Client</td>
+                      <td class="b">Date</td>
+                      <td class="b">Etat</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for livraison in livraisons %}
+                    <tr>
+                      
+                      <td>{{ livraison.designation }}</td>
+                      <td>{{ livraison.livreur }}</td>
+                      <td>{{ livraison.commande }}</td>
+                      <td>{{ livraison.commande.client }}</td>
+                      <td>{{ livraison.created }}</td>
+                      <td>{{ livraison.etat }}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              </div>
+
+              <div class="card-body">
+                <h5 class="card-title"> Commande Recentes  <span></span></h5>
+
+                <table class="  table table-striped  ">
+                  <thead>
+                    <tr>
+                      <td class="b">Désignation</td>
+                      <td class="b" style="color:black;">Client</td>
+                      <td class="b">Nombre de Sachet</td>
+                      <td class="b">Poids</td>
+                      <td class="b">Prix</td>
+                      <td class="b">Date Commande </td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for commande in commandes %}
+                    <tr>
+                      <td>{{ commande.designation }}</td>
+                      <td>{{ commande.client }}</td>
+                      <td>{{ commande.nombreSachet }}</td>
+                      <td>{{ commande.poids }}</td>
+                      <td>{{ commande.prix }}</td>
+                      <td>{{ commande.date }}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+
+              </div>              
+
+            </div>
+           
 
 
           </div><!-- End Recent Sales -->

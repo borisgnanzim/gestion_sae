@@ -24,7 +24,7 @@ def Login(request):
         print('user loged')
         if user is not None:
             login(request,user)
-            return redirect("/dashbord")
+            return redirect("/dashboard")
         print("FAILED")
     return render(request,'login.html')
 
@@ -62,7 +62,8 @@ def dashboard(request):
 	commande_nbr = Commande.objects.all().filter(created__year=date.today().year).count()
 	client_nbr = Client.objects.all().filter(created__year=date.today().year).count()
 	commandes = Commande.objects.all().filter(created__year=date.today().year)
-	# total = sum([ x.produit.prix_unitaire * x.produit.nombre_lot * x.quantite for x in commandes ])
+	livraison_recente = Livraison.objects.all().order_by('-created')[:2]
+	total = sum([ x.prix for  x in commandes if x.prix is not None ])
 
 
 
@@ -87,7 +88,10 @@ def dashboard(request):
 	return render(request,'dashboard.html',{'commande_nbr':commande_nbr,
 		'client_nbr':client_nbr,'commandes':commande_recente,
 		'clients':client_recent,
-		# 'total':total,'total_mois':total_mois,'arr':produits[:2]
+		'livraisons':livraison_recente,
+		'total':total,
+		#
+		# 'total_mois':total_mois,'arr':produits[:2]
 		})
 
 
@@ -132,6 +136,30 @@ def enregistrer_commande(request):
 		return render(request,'enregistrer_commande.html',{'commande':commande,'clients':clients})
 	return render(request,'enregistrer_commande.html',{'clients':clients})
 	pass
+
+
+@decorators.login_required(login_url='/login')
+def enregistrer_attribution(request):
+	commandes = Commande.objects.all()
+	livreurs = Livreur.objects.all()
+	if request.method == "POST":
+		#print(request.POST['livre'])
+		commande=Commande.objects.get(id=request.POST['commande'])
+		livreur=Livreur.objects.get(id=request.POST['livreur'])
+		attribution = Attribution(designation = request.POST['designation'],
+			commande=commande,
+		    livreur =livreur,
+			date=request.POST['date'] ,
+            commentaire =request.POST['commentaire'],
+        )
+
+		attribution.save()
+		messages.info(request,"Attribution Enregistree avec succes")
+		return render(request,'enregistrer_attribution.html',{'attribution':attribution  ,'commandes':commandes,'livreurs':livreurs})
+	return render(request,'enregistrer_attribution.html',{ 'commandes':commandes ,'livreurs':livreurs})
+	pass
+
+
 
 
 @decorators.login_required(login_url='/login')
@@ -194,6 +222,13 @@ def liste_commande(request):
 	return render(request,'liste_commande.html',{'commandes':commandes})
 	pass
 
+
+
+@decorators.login_required(login_url='/login')
+def liste_attribution(request):
+	attributions = Attribution.objects.all()
+	return render(request,'liste_attribution.html',{'attributions':attributions})
+	pass
 
 # @decorators.login_required(login_url='/login')
 # def liste_livraison(request):
@@ -282,3 +317,67 @@ def recapitulatif(request):
 @decorators.login_required(login_url='/login')
 def imprimer(request):
 	pass    
+
+# pour imprimer la liste des clients 27-03-2023
+
+# from django.http import HttpResponse
+# from django.template.loader import get_template
+# from xhtml2pdf import pisa
+# from .models import Client
+
+# @decorators.login_required(login_url='/login')
+# def client_list_pdf(request):
+#     clients = Client.objects.all()
+#     context = {
+#         'clients': clients,
+#     }
+#     template_path = 'client_list_pdf.html'
+#     # Créez un objet Template à partir du fichier template HTML
+#     template = get_template(template_path)
+#     # Rendre le contenu du template HTML avec le contexte des données
+#     html = template.render(context)
+#     # Créer un document PDF vide et un flux de sortie
+#     response = HttpResponse(content_type='application/pdf')
+#     response['Content-Disposition'] = 'attachment; filename="client_list.pdf"'
+#     # Convertir le template HTML en PDF
+#     pisa_status = pisa.CreatePDF(
+#        html, dest=response, link_callback=link_callback)
+#     # S'il y a une erreur, affichez-la en tant que texte brut dans le document PDF
+#     if pisa_status.err:
+#         return HttpResponse('Une erreur est survenue lors de la création du document PDF: %s' % escape(html))
+#     return response
+
+
+from django.http import HttpResponse
+from django.template.loader import get_template
+from io import BytesIO
+from reportlab.pdfgen import canvas
+from .models import Client
+
+def client_list_pdf(request):
+    clients = Client.objects.all()
+    context = {
+        'clients': clients,
+    }
+    template = get_template('client_list.html')
+    html = template.render(context)
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="client_list.pdf"'
+    buffer = BytesIO()
+    p = canvas.Canvas(buffer)
+    p.drawString(100, 800, "Liste des clients")
+    p.drawString(100, 750, "Nom")
+    p.drawString(300, 750, "Email")
+    p.drawString(500, 750, "Téléphone")
+    y = 700
+    for client in clients:
+        p.drawString(100, y, client.nom)
+        p.drawString(300, y, client.email)
+        p.drawString(500, y, client.tel)
+        y -= 20
+    p.showPage()
+    p.save()
+    pdf = buffer.getvalue()
+    buffer.close()
+    response.write(pdf)
+    return response

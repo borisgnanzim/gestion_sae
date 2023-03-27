@@ -1,18 +1,18 @@
 {% extends 'index.html' %}
 
 {% block content %}
+{% load static %}
 <div class="pagetitle">
-  <h1>Liste des Clients</h1>
+  <h1>Liste des Attributions </h1>
   <nav>
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="/dashbord">Home</a></li>
-      <li class="breadcrumb-item">Gestion Client</li>
-      <li class="breadcrumb-item active"><a href='/liste_depense'>Liste des Clients<a></li>
+      <li class="breadcrumb-item">Gestion Attribution</li>
+      <li class="breadcrumb-item active"><a href="{% url 'enregistrer_attribution' %}" >Liste des Commandes<a></li>
     </ol>
   </nav>
 </div><!-- End Page Title -->
 
-<section class="section">
   <style type="text/css">
     td{
       flex: 1;
@@ -23,45 +23,49 @@
   </form>
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">Liste des Clients</h5>
+          <h5 class="card-title">Liste des Attributions | {{attribution.count }}</h5>
 
 
             <table class="table datatable">
                 <thead>
                   <tr>
-                    <th scope="col">Nom</th>
-                    <th scope="col">Prenom</th>
-                    <th scope="col">Numero</th>
-                    <th scope="col">Adresse</th>
-                    <th scope="col">Commande effectuee</th>
-                    <th scope="col">Action</th>
+                    <th scope="col">Désignation</th>
+                    <th scope="col">Commande </th>
+                    <th scope="col">Livreur </th>
+                    <th scope="col">Date  </th>
+                    <th scope="col">Commentaire </th>
+                    
+                  
+                                       
                     
                   </tr>
                 </thead>
                 <tbody>
-                  {% for client in clients %}
+                  {% for attribution in attributions %}
                     <tr>
-                      <td>{{ client.nom }}</td>
-                      <td>{{ client.prenom }}</td>
-                      <td>{{ client.tel }}</td>
-                      <td>{{ client.adresse }}</td>
-                      <td>{{ client.commande_set.all.count }}</td>
-                      <td>
-                        <a href="{% url 'statistique' client.id %}">statistique</a> | 
-                        <a href="{% url 'modifier_client' client.id %}">Modifier</a> 
-                      </td>
-                      
+                      <td>{{ attribution.designation }}</td>
+                      <td>{{ attribution.commande.designation }}</td>    
+                      <td>{{ attribution.livreur}}</td>
+                      <td>{{ attribution.date|date:"d-m-Y" }}</td>
+                      <td>{{ attribution.commentaire }}</td>                      
+                      <!-- {% if commande.livre == True %}
+                       <td>Oui</td>
+                      {% else %}
+                      <td>Non</td>
+                      {% endif %} -->
+                        {% comment%}
+                     <td> <a href="{% url 'modifier_attribution' attribution.id %}">Modifier</a> </td>
+                        {%endcomment%}
                       
                     </tr>
                 {% endfor %}
                 </tbody>
               </table>
-              <a href="{% url 'client_list_pdf' %}" class="btn btn-primary">Imprimer en PDF</a>
-
          </div>
 
   </div>
-  <h5>TOTAL : {{clients.count}}</h5>
+  <h5>MONTANT TOTAL : {{ total }}</h5>
+ 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->

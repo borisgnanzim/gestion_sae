@@ -43,7 +43,7 @@ class Commande(models.Model):
     designation = models.CharField(max_length=50 ,null=True)
     nombreSachet = models.IntegerField(null=True)
     poids =models.FloatField(max_length=12 ,null=True)
-    prix=models.FloatField(max_length=12 ,null=True) 
+    prix=models.FloatField(max_length=12 ,null=True ) 
     date = models.DateField(default=datetime.today())
     client = models.ForeignKey(Client, on_delete=models.CASCADE ,null=True)
     created = models.DateTimeField(auto_now_add=True)
@@ -57,7 +57,7 @@ class Attribution(models.Model):
     commande = models.ForeignKey(Commande, on_delete=models.CASCADE , null=True ,unique=True )
     livreur = models.ForeignKey(Livreur, on_delete=models.CASCADE , null=True)
     date = models.DateField(default=timezone.now) 
-    gestionnaire = models.ForeignKey(Gestionnaire, on_delete= models.CASCADE ,null=True)
+    #gestionnaire = models.ForeignKey(Gestionnaire, on_delete= models.CASCADE ,null=True)
     commentaire = models.TextField(max_length=300,null=True)
 
     def __str__(self):
@@ -65,9 +65,9 @@ class Attribution(models.Model):
 
 class Livraison(models.Model):
     designation = models.CharField(max_length= 50 ,null=True) 
-    commande_livraison = models.ForeignKey(Commande, on_delete=models.CASCADE ,null=True)
+    commande = models.ForeignKey(Commande, on_delete=models.CASCADE ,null=True)
     #client_livraison = models.ForeignKey(Client, on_delete=models.CASCADE) 
-    livreur_livraison = models.ForeignKey(Livreur, on_delete=models.CASCADE ,null=True)
+    livreur = models.ForeignKey(Livreur, on_delete=models.CASCADE ,null=True)
     etat = models.BooleanField(null=True) # true pour livré false pour pas encore livré
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)

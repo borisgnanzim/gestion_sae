@@ -1,0 +1,31 @@
+{% extends 'index.html'  %}
+
+{% block content %}
+    <h1>Liste des clients</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>Email</th>
+                <th>Téléphone</th>
+                <th>Adresse</th>
+                <th>Commande effectuee</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for client in clients %}
+                <tr>
+                    <td>{{ client.nom }}</td>
+                    <td>{{ client.prenom }}</td>
+                    <td>{{ client.email }}</td>
+                    <td>{{ client.tel }}</td>
+                    <td>{{ client.adresse }}</td>
+                    <td>{{ client.commande.designation }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'client_list_pdf' %}" class="btn btn-primary">Imprimer en PDF</a>
+
+{% endblock %}

@@ -30,6 +30,7 @@ from rest_framework.authtoken import views as vw
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('dashbord/', views.dashbord),
+    path('dashboard/', views.dashboard),
     path('', views.Login),
     path('#', views.dashbord),
     path('login/',views.Login),

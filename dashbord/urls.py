@@ -30,6 +30,10 @@ urlpatterns = [
     path('liste_livraison/', views.liste_livraison,name="liste_livraison"),
     path('enregistrer_livreur/', views.enregistrer_livreur,name="enregistrer_livreur"),
     path('liste_livreur/', views.liste_livreur,name="liste_livreur"),
-    
+    path('enregistrer_attribution/', views.enregistrer_attribution,name="enregistrer_attribution"),
+    path('liste_attribution/', views.liste_attribution,name="liste_attribution"),
+    path('client_list_pdf/', views.client_list_pdf,name="client_list_pdf"),
+
+
 
 ]
