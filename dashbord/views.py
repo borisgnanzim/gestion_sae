@@ -124,7 +124,7 @@ def enregistrer_commande(request):
 	if request.method == "POST":
 		#print(request.POST['livre'])
 		client=Client.objects.get(id=request.POST['client'])
-		commande = Commande(client_commande=client,
+		commande = Commande(client=client,
 		    designation = request.POST['designation'],  
 			nombreSachet=int(request.POST['nombreSachet']),
 			date=request.POST['date'] ,
@@ -381,3 +381,66 @@ def client_list_pdf(request):
     buffer.close()
     response.write(pdf)
     return response
+
+
+# Realisation de graphique  28-03-2023
+
+# Importez les bibliothèques nécessaires
+import matplotlib.pyplot as plt
+from django.http import HttpResponse
+
+# Créez une fonction pour générer les données et le graphique
+def generate_chart():
+    # Données d'exemple
+    data = [1, 2, 3, 4, 5]
+    
+    # Créez un graphique à barres avec les données
+    plt.bar(range(len(data)), data)
+    
+    # Définissez les titres et les étiquettes d'axe
+    plt.title('Exemple de graphique à barres')
+    plt.xlabel('Valeurs')
+    plt.ylabel('Fréquence')
+    
+    # Enregistrez le graphique en tant qu'image PNG
+    plt.savefig('path/to/image.png')
+    
+    # Retournez l'image en tant que réponse HTTP
+    with open('path/to/image.png', 'rb') as f:
+        response = HttpResponse(f.read(), content_type='image/png')
+    return response
+
+# Créez une vue Django pour afficher le graphique
+def chart_view(request):
+    return generate_chart()
+
+
+
+
+#diagramme en battton pour commande prix nom_client
+
+# views.py
+from django.shortcuts import render
+#from .models import Livreur
+import matplotlib.pyplot as plt
+import io
+import urllib, base64
+
+def commande_sales(request):
+    commandes = Commande.objects.all()
+    commande_clients = [com.client.nom for com in commandes if com.prix is not None ]
+    commande_prix = [com.prix for com in commandes if com.prix is not None]
+    plt.bar(commande_clients, commande_prix)
+    plt.title("Prix de commande par client")
+    plt.xlabel("Clients")
+    plt.ylabel("Prix")
+    plt.xticks(rotation=45)
+    # Convertir le graphique en une image codée en base64 pour l'afficher dans le template
+    buffer = io.BytesIO()
+    plt.savefig(buffer, format='png')
+    buffer.seek(0)
+    image_png = buffer.getvalue()
+    buffer.close()
+    graphic = base64.b64encode(image_png)
+    graphic = graphic.decode('utf-8')
+    return render(request, 'commande_sales.html', {'graphic': graphic})

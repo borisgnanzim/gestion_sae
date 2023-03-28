@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.urls import path, include
 from dashbord import views
+from .views import chart_view
+
 #from .router import router
 
 urlpatterns = [
@@ -33,7 +35,8 @@ urlpatterns = [
     path('enregistrer_attribution/', views.enregistrer_attribution,name="enregistrer_attribution"),
     path('liste_attribution/', views.liste_attribution,name="liste_attribution"),
     path('client_list_pdf/', views.client_list_pdf,name="client_list_pdf"),
-
+    path('chart/', chart_view, name='chart_view'),
+    path('commande_sales/', views.commande_sales,name="commande_sales" ),
 
 
 ]
